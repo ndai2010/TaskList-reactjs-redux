@@ -1,0 +1,27 @@
+.card-content {
+    width: 300px !important;
+    height: 230px !important;
+    border: 1px solid black;
+    border-radius: 10px;
+
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+
+        .action-card {
+            display: flex;
+            justify-content: flex-end;
+
+            i {
+                padding: 0 10px;
+                cursor: pointer;
+
+                &:hover {
+                    color: orange;
+                }
+            }
+        }
+    }
+}
+
+.description-task {}
