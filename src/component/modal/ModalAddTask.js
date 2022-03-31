@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap'
-export default class ModalCreateTask extends Component {
+export default class MoadalAddTask extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            taskName: '',
-            description: ''
+            task: '',
+            description: '',
         }
     }
     toggle = () => {
@@ -13,7 +13,7 @@ export default class ModalCreateTask extends Component {
     }
     checkVali = () => {
         let isValid = true;
-        let inputArr = ['taskName', 'description']
+        let inputArr = ['task', 'description']
         for (let i = 0; i < inputArr.length; i++) {
             if (!this.state[inputArr[i]]) {
                 isValid = false;
@@ -32,29 +32,29 @@ export default class ModalCreateTask extends Component {
     }
     handleClickAdd = () => {
         let obj = {}
-        obj["name"] = this.state.taskName;
+        obj["task"] = this.state.task;
         obj["description"] = this.state.description;
 
         let isValid = this.checkVali();
         if (isValid) {
             this.toggle()
             this.props.dataAddTask(obj)
-            alert("add task succeed!")
+            alert("add task group succeed!")
         }
     }
     render() {
-        let { taskName, description } = this.state
+        let { task, description } = this.state
         return (
             <Modal isOpen={this.props.isOpen} toggle={() => { this.toggle() }}>
-                <ModalHeader toggle={() => { this.toggle() }}>Create task</ModalHeader>
+                <ModalHeader toggle={() => { this.toggle() }}>Create task group</ModalHeader>
                 <ModalBody>
                     <form>
                         <div className='form-group'>
                             <label className='task-name'>Task name</label>
-                            <input type='text' className='form-control' value={taskName} onChange={(event) => { this.handleOnChange(event, 'taskName') }}></input>
+                            <input type='text' className='form-control' value={task} onChange={(event) => { this.handleOnChange(event, 'task') }}></input>
                         </div>
-                        <div className='form-group mt-3'>
-                            <label className='description'>Description</label>
+                        <div className='form-group'>
+                            <label className='task-name'>description</label>
                             <textarea rows="5" className='form-control' value={description} onChange={(event) => { this.handleOnChange(event, 'description') }}></textarea>
                         </div>
                     </form>

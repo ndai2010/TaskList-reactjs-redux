@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './HomePage.scss'
-import ModalCreateTask from '../modal/ModalCreateTask';
 import CardTask from '../Card/CardTask';
+import MoadalAddTask from '../modal/ModalAddTask';
 export default class HomePage extends Component {
     constructor(props) {
         super(props);
@@ -29,7 +29,7 @@ export default class HomePage extends Component {
     render() {
         return (
             <>
-                <ModalCreateTask
+                <MoadalAddTask
                     isOpen={this.state.isOpenModal}
                     toggleModal={this.toggleModal}
                     dataAddTask={this.dataAddTask}
