@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
+import { toast } from 'react-toastify';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap'
 export default class MoadalAddTask extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            task: '',
+            taskName: '',
             description: '',
         }
     }
@@ -13,11 +14,11 @@ export default class MoadalAddTask extends Component {
     }
     checkVali = () => {
         let isValid = true;
-        let inputArr = ['task', 'description']
+        let inputArr = ['taskName', 'description']
         for (let i = 0; i < inputArr.length; i++) {
             if (!this.state[inputArr[i]]) {
                 isValid = false;
-                alert('Missing parameter!');
+                toast.warning('Missing ' + inputArr[i]);
                 break;
             }
         }
@@ -31,27 +32,32 @@ export default class MoadalAddTask extends Component {
         })
     }
     handleClickAdd = () => {
-        let obj = {}
-        obj["task"] = this.state.task;
-        obj["description"] = this.state.description;
-
-        let isValid = this.checkVali();
-        if (isValid) {
-            this.toggle()
-            this.props.dataAddTask(obj)
-            alert("add task group succeed!")
+        if (this.checkVali()) {
+            let data = {
+                id: this.props.dataProps.length > 0 ? this.props.dataProps[this.props.dataProps.length - 1].id + 1 : 0,
+                name: this.state.taskName,
+                description: this.state.description,
+                status: "incompleted"
+            }
+            this.props.addTask(data)
         }
+        this.setState({
+            taskName: '',
+            description: '',
+        })
+        this.toggle()
+
     }
     render() {
-        let { task, description } = this.state
+        let { taskName, description } = this.state
         return (
             <Modal isOpen={this.props.isOpen} toggle={() => { this.toggle() }}>
-                <ModalHeader toggle={() => { this.toggle() }}>Create task group</ModalHeader>
+                <ModalHeader toggle={() => { this.toggle() }}>Create task</ModalHeader>
                 <ModalBody>
                     <form>
                         <div className='form-group'>
                             <label className='task-name'>Task name</label>
-                            <input type='text' className='form-control' value={task} onChange={(event) => { this.handleOnChange(event, 'task') }}></input>
+                            <input type='text' className='form-control' value={taskName} onChange={(event) => { this.handleOnChange(event, 'taskName') }}></input>
                         </div>
                         <div className='form-group'>
                             <label className='task-name'>description</label>
