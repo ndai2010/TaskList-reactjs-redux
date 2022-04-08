@@ -1,84 +1,63 @@
 import React, { Component } from 'react'
 import './CardTask.scss'
+import ModalUpdateTask from '../modal/ModalUpdateTask';
 export default class CardTask extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: this.props.data.name,
-            description: this.props.data.description,
             data: this.props.data,
-            isDisable: true,
+            isOpenModal: false,
+
         }
     }
     handleDeleteTask = (task) => {
         this.props.delete(task)
     }
-
-    handleEditTask = () => {
-        this.setState({
-            isDisable: !this.state.isDisable
-        })
-    }
-
-    handleOnChange = (e, id) => {
-        let coppyState = { ...this.state };
-        coppyState[id] = e.target.value;
-        this.setState({
-            ...coppyState
-        })
-    }
-    handlePressKey = (e, data) => {
+    handleCompleteTask = () => {
         let dataUpdate = {
-            id: data.id,
-            name: this.state.name,
-            description: this.state.description,
-            status: data.status,
-        }
-        if (e.which === 13) {
-            this.handleEditTask()
-            this.props.updateTask(dataUpdate)
-        }
-    }
-    handleCompleteTask = (data) => {
-        let dataUpdate = {
-            id: data.id,
-            name: this.state.name,
-            description: this.state.description,
+            id: this.props.data.id,
+            name: this.props.data.name,
+            description: this.props.data.description,
             status: 'completed',
         }
         this.props.updateTask(dataUpdate)
     }
+    handleEditTask = () => {
+        this.setState({
+            isOpenModal: true
+        })
+    }
+    toggleModal = () => {
+        this.setState({
+            isOpenModal: !this.state.isOpenModal
+        })
+    }
+
     render() {
-        let { data, isDisable } = this.state
+        let { data } = this.state
         return (
             <div className='card-task'>
-                <div className='header-task container'>
-                    <div className='form-group'>
-                        <input
-                            className='name-task form-control'
-                            value={this.props.data.name}
-                            disabled={isDisable}
-                            onChange={(event) => { this.handleOnChange(event, 'name') }}
-                        ></input>
-                    </div>
-                </div>
-                <div className='description mt-2 container'>
-
-                    <form>
-                        <div className='form-group'>
-                            <textarea
-                                className='form-control'
-                                disabled={isDisable}
-                                rows="3"
-                                value={this.props.data.description}
-                                onKeyPress={(e) => this.handlePressKey(e, data)}
-                                onChange={(event) => { this.handleOnChange(event, 'description') }}>
-                            </textarea>
+                <ModalUpdateTask
+                    isOpen={this.state.isOpenModal}
+                    toggleModal={this.toggleModal}
+                    dataProps={this.props.data}
+                    updateTask={this.props.updateTask}
+                />
+                <div className='card-task-content container'>
+                    <div className='header-task'>
+                        <div className='name-task'>
+                            <span>{this.props.data.name}</span>
                         </div>
-                    </form>
+                        <div className='status-task'>
+                            <div className={'status-icon ' + this.props.data.status}></div>
+                        </div>
+                    </div>
+                    <div className='description'>
+                        <span>{this.props.data.description}</span>
+                    </div>
                     <div className='action mt-1'>
                         <span className='edit btn' onClick={() => this.handleEditTask()}><i className="fa-solid fa-pencil"></i></span>
-                        <span className='check btn' onClick={() => this.handleCompleteTask(data)}><i className="fa-solid fa-check-double"></i></span>
+                        <span className='check btn' onClick={() => this.handleCompleteTask()}><i className="fa-solid fa-check"></i></span>
                         <span className='delete btn' onClick={() => this.handleDeleteTask(data)}><i className="fa-solid fa-x"></i></span>
                     </div>
                 </div>

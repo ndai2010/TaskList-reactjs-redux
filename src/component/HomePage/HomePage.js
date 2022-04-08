@@ -33,7 +33,6 @@ class HomePage extends Component {
     render() {
         let { selectedTab } = this.state
         let filterTasks = getTodosByVisibilityFilter(this.props.data, this.props.filter)
-        console.log(filterTasks);
         return (
             <>
                 <MoadalAddTask

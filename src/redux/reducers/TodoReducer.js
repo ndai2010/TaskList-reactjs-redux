@@ -20,7 +20,7 @@ export const taskReducer = (state = initTodoState, action) => {
             return updateTasks
         case DELETE_TASK:
             let newTasks = [...state];
-            newTasks = newTasks.filter(todo => todo.id === action.payload.id)
+            newTasks = newTasks.filter(todo => todo.id !== action.payload.id)
             toast.success('Deleted task successfully !')
             return newTasks
         default: return state
